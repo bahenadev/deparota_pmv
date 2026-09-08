@@ -1,0 +1,39 @@
+# =========================================
+# Deparota — Mono-repo .gitignore global
+# =========================================
+
+# --- Node / Astro / React (deparota-web) ---
+node_modules/
+dist/
+.astro/
+
+# --- Variables de entorno ---
+.env
+.env.local
+.env.production
+.env.backup
+.env.*.local
+
+# --- PHP / Composer (deparota-api) ---
+vendor/
+composer.phar
+auth.json
+
+# --- Laravel: claves y caché ---
+**/storage/*.key
+**/storage/app/public/*
+!**/storage/app/public/.gitignore
+**/bootstrap/cache/*
+!**/bootstrap/cache/.gitignore
+
+# --- Caché y resultados de PHP ---
+.phpunit.cache/
+.phpunit.result.cache
+_ide_helper.php
+
+# --- Logs ---
+*.log
+
+# --- SO y misc ---
+.DS_Store
+Thumbs.db

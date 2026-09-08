@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AddToCartButton from '../components/AddToCartButton.jsx';
+
+interface Product {
+	id: number;
+	name: string;
+	slug: string;
+	sku: string;
+	description: string;
+	price: number;
+	image_url: string;
+	dimensions: string;
+	category: {
+		name: string;
+	};
+}
+
+let products: Product[] = [];
+
+try {
+	const response = await fetch(`${import.meta.env.PUBLIC_API_URL}/products`);
+	if (response.ok) {
+		products = await response.json();
+	}
+} catch (error) {
+	console.error("Error conectando con la API de Laravel:", error);
+}
+---
+
+<Layout>
+	<section class="max-w-7xl mx-auto px-4 py-16 md:py-24 text-center">
+		<span class="text-xs uppercase tracking-widest font-semibold text-stone-500 mb-3 block">Madera Maciza & Diseño Artesanal</span>
+		<h1 class="font-serif text-4xl md:text-6xl font-bold tracking-tight max-w-3xl mx-auto mb-6">
+			Piezas únicas de parota para transformar tu hogar
+		</h1>
+		<p class="text-stone-600 text-lg max-w-xl mx-auto mb-10">
+			Fabricación directa en San Mateo Atenco. Calidad garantizada, vetas naturales incomparables y entrega en el Valle de Toluca y CDMX.
+		</p>
+	</section>
+
+	<section class="max-w-7xl mx-auto px-4 pb-24">
+		<div class="flex justify-between items-center mb-8 border-b border-stone-200 pb-4">
+			<h2 class="font-serif text-2xl font-bold">Catálogo Destacado</h2>
+			<span class="text-sm text-stone-500">{products.length} modelos disponibles</span>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+			{products.map((product) => (
+				<div class="bg-white rounded-2xl overflow-hidden border border-stone-200/80 hover:shadow-xl transition-all duration-300 flex flex-col group">
+					<div class="aspect-4/3 overflow-hidden bg-stone-100 relative">
+						<img 
+							src={product.image_url} 
+							alt={product.name}
+							class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+						/>
+						<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium text-stone-800 shadow-sm">
+							{product.category.name}
+						</span>
+					</div>
+					
+					<div class="p-6 flex flex-col flex-grow">
+						<h3 class="font-serif text-xl font-bold mb-2 group-hover:text-stone-600 transition-colors">
+							{product.name}
+						</h3>
+						<p class="text-stone-600 text-sm line-clamp-2 mb-4 flex-grow">
+							{product.description}
+						</p>
+						
+						<div class="mt-auto pt-4 border-t border-stone-100 flex items-center justify-between">
+							<div>
+								<span class="text-xs text-stone-400 block">Precio contado</span>
+								<span class="text-xl font-bold text-stone-900">
+									${Number(product.price).toLocaleString('es-MX')} <span class="text-xs font-normal text-stone-500">MXN</span>
+								</span>
+							</div>
+							<!-- Componente de Isla en React -->
+							<AddToCartButton client:load product={product} />
+						</div>
+					</div>
+				</div>
+			))}
+		</div>
+	</section>
+</Layout>

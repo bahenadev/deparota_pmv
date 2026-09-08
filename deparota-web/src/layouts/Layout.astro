@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+import CartDrawer from '../components/CartDrawer.jsx';
+import CartButton from '../components/CartButton.jsx';
+
+interface Props {
+	title?: string;
+}
+
+const { title = "Deparota | Muebles de Parota y Madera Maciza" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+	</head>
+	<body class="bg-[#FAFAFA] text-[#171717] font-sans antialiased selection:bg-stone-200 overflow-x-hidden">
+		<header class="border-b border-stone-200 bg-white/90 backdrop-blur-md sticky top-0 z-30 w-full">
+			<div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+				<a href="/" class="flex items-center">
+					<img src="/logo.png" alt="Deparota" class="h-8 md:h-10 w-auto" />
+				</a>
+				<nav class="flex items-center gap-4 text-sm font-medium">
+					<a href="/" class="hover:text-stone-600 transition-colors">Catálogo</a>
+				</nav>
+			</div>
+		</header>
+
+		<main class="w-full overflow-x-hidden px-4 sm:px-6 lg:px-8">
+			<slot />
+		</main>
+
+		<!-- Componentes interactivos de React -->
+		<CartButton client:load />
+		<CartDrawer client:load />
+
+		<footer class="border-t border-stone-200 bg-white mt-20 py-12 text-center text-sm text-stone-500 px-4">
+			<p>© 2026 Deparota. Mueblería fina en el Valle de Toluca.</p>
+		</footer>
+	</body>
+</html>
